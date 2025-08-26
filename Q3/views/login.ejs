@@ -1,0 +1,15 @@
+
+<section class="card">
+  <h1>Login</h1>
+  <% if (error) { %>
+    <div class="alert"><%= error %></div>
+  <% } %>
+  <form method="post" action="/login" class="form">
+    <label>Email</label>
+    <input type="email" name="email" placeholder="admin@demo.com" required/>
+    <label>Password</label>
+    <input type="password" name="password" placeholder="Pass@123" required/>
+    <button class="btn primary" type="submit">Login</button>
+  </form>
+  <p class="muted">Demo credentials: <code>admin@demo.com</code> / <code>Pass@123</code></p>
+</section>

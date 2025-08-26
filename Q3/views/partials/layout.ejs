@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header>
+    <h2>My App</h2>
+    <% if (user) { %>
+      <p>Welcome, <%= user.username %> | <a href="/logout">Logout</a></p>
+    <% } else { %>
+      <a href="/login">Login</a>
+    <% } %>
+  </header>
+  
+  <main>
+    <%- body %>
+  </main>
+</body>
+</html>

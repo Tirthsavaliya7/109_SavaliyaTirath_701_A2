@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registered</title>
+  <link rel="stylesheet" href="/public/styles.css" />
+</head>
+<body>
+  <h1>Registration Successful</h1>
+  <table class="table">
+    <tr><th>Username</th><td><%= data.username %></td></tr>
+    <tr><th>Email</th><td><%= data.email %></td></tr>
+    <tr><th>Gender</th><td><%= data.gender %></td></tr>
+    <tr><th>Hobbies</th><td><%= data.hobbies.join(", ") %></td></tr>
+    <tr>
+      <th>Profile Pic</th>
+      <td>
+        <% if (data.profilePic) { %>
+         <img src="/uploads/<%= profilePicFilename %>" width="150">
+
+        <% } %>
+      </td>
+    </tr>
+    <tr>
+      <th>Other Pics</th>
+      <td>
+        <% if (data.otherPics && data.otherPics.length) { %>
+          <% data.otherPics.forEach(p => { %>
+            <img src="/uploads/<%= p %>" width="100" style="margin-right:8px" />
+          <% }) %>
+        <% } %>
+      </td>
+    </tr>
+  </table>
+  <p><a href="/download">Download data file</a></p>
+  <p><a href="/">Back</a></p>
+</body>
+</html>

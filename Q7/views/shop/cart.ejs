@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Cart</title></head>
+<body>
+  <h2>Your Cart</h2>
+  <table border="1" cellpadding="6">
+    <tr><th>Item</th><th>Price</th><th>Qty</th><th>Line Total</th></tr>
+    <% cart.forEach(i => { %>
+      <tr><td><%= i.name %></td><td>$<%= i.price %></td><td><%= i.qty %></td><td>$<%= (i.qty * i.price).toFixed(2) %></td></tr>
+    <% }) %>
+    <tr><th colspan="3" style="text-align:right">Total</th><th>$<%= total.toFixed(2) %></th></tr>
+  </table>
+  <form method="post" action="/cart/clear"><button type="submit">Clear Cart</button></form>
+  <p><a href="/shop">Continue Shopping</a></p>
+</body></html>

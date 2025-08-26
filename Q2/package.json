@@ -1,0 +1,14 @@
+{
+  "name": "q2-login-file-session",
+  "version": "1.0.0",
+  "main": "server.js",
+  "type": "module",
+  "scripts": { "start": "node server.js", "dev": "nodemon server.js" },
+  "dependencies": {
+    "ejs": "^3.1.9",
+    "express": "^4.19.2",
+    "express-session": "^1.18.0",
+    "session-file-store": "^1.5.0"
+  },
+  "devDependencies": { "nodemon": "^3.1.0" }
+}

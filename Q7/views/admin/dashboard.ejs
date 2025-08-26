@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Admin - Catalog</title></head>
+<body>
+  <h2>Admin: Categories & Products</h2>
+  <h3>Create Category</h3>
+  <form method="post" action="/admin/category">
+    <input name="name" placeholder="Category name" required />
+    <label>Parent:
+      <select name="parent">
+        <option value="">(none)</option>
+        <% cats.filter(c=>!c.parent).forEach(c => { %>
+          <option value="<%= c._id %>"><%= c.name %></option>
+        <% }) %>
+      </select>
+    </label>
+    <button type="submit">Create</button>
+  </form>
+
+  <h3>Create Product</h3>
+  <form method="post" action="/admin/product">
+    <input name="name" placeholder="Product name" required />
+    <input name="price" type="number" placeholder="Price" required />
+    <label>Category:
+      <select name="category">
+        <% cats.filter(c=>!c.parent).forEach(c => { %>
+          <option value="<%= c._id %>"><%= c.name %></option>
+        <% }) %>
+      </select>
+    </label>
+    <label>Subcategory:
+      <select name="subcategory">
+        <% cats.filter(c=>c.parent).forEach(c => { %>
+          <option value="<%= c._id %>"><%= c.name %></option>
+        <% }) %>
+      </select>
+    </label>
+    <button type="submit">Create</button>
+  </form>
+
+  <h3>Categories</h3>
+  <ul>
+    <% cats.forEach(c => { %>
+      <li><%= c.name %> <% if (c.parent) { %> (child of <%= cats.find(p=>p._id.toString()===c.parent.toString()).name %>) <% } %></li>
+    <% }) %>
+  </ul>
+
+  <h3>Products</h3>
+  <table border="1" cellpadding="6">
+    <tr><th>Name</th><th>Price</th><th>Category</th><th>Subcategory</th></tr>
+    <% prods.forEach(p => { %>
+      <tr><td><%= p.name %></td><td><%= p.price %></td><td><%= p.category?.name %></td><td><%= p.subcategory?.name %></td></tr>
+    <% }) %>
+  </table>
+
+  <p><a href="/shop">Go to Shop</a></p>
+</body></html>

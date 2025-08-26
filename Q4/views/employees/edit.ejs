@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Edit Employee</title></head>
+<body>
+  <h2>Edit Employee</h2>
+  <% if (error) { %><p style="color:red"><%= error %></p><% } %>
+  <form method="post" action="/employees/<%= emp._id %>">
+    <input name="name" value="<%= emp.name %>" required />
+    <input name="email" type="email" value="<%= emp.email %>" required />
+    <input name="department" value="<%= emp.department %>" required />
+    <input name="baseSalary" type="number" value="<%= emp.baseSalary %>" required />
+    <button type="submit">Update</button>
+  </form>
+  <p><a href="/employees">Back</a></p>
+</body></html>

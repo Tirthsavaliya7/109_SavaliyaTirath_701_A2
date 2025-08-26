@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Employees</title></head>
+<body>
+  <form method="post" action="/logout" style="float:right"><button type="submit">Logout</button></form>
+  <h2>Employees</h2>
+  <p><a href="/employees/new">+ Add Employee</a></p>
+  <table border="1" cellpadding="6">
+    <tr><th>EMPID</th><th>Name</th><th>Email</th><th>Dept</th><th>Base</th><th>HRA</th><th>DA</th><th>Gross</th><th>Actions</th></tr>
+    <% employees.forEach(e => { %>
+      <tr>
+        <td><%= e.empid %></td>
+        <td><%= e.name %></td>
+        <td><%= e.email %></td>
+        <td><%= e.department %></td>
+        <td><%= e.baseSalary %></td>
+        <td><%= e.hra.toFixed(2) %></td>
+        <td><%= e.da.toFixed(2) %></td>
+        <td><%= e.gross.toFixed(2) %></td>
+        <td>
+          <a href="/employees/<%= e._id %>/edit">Edit</a>
+          <form method="post" action="/employees/<%= e._id %>/delete" style="display:inline">
+            <button type="submit" onclick="return confirm('Delete?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </table>
+</body></html>

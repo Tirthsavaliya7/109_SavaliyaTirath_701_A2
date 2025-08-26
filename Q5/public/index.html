@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><title>Employee Site (JWT)</title></head>
+<body>
+  <h2>Employee Login</h2>
+  <div id="login">
+    <input id="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Password" />
+    <button onclick="login()">Login</button>
+  </div>
+
+  <div id="app" style="display:none">
+    <button onclick="logout()">Logout</button>
+    <h3>Profile</h3>
+    <pre id="profile"></pre>
+
+    <h3>Apply Leave</h3>
+    <input id="date" type="date" />
+    <input id="reason" placeholder="Reason" />
+    <label>Grant?
+      <select id="granted">
+        <option value="false">No</option>
+        <option value="true">Yes</option>
+      </select>
+    </label>
+    <button onclick="addLeave()">Add</button>
+
+    <h3>Leaves</h3>
+    <ul id="list"></ul>
+  </div>
+
+  <script>
+    const api = (path, opts={}) => fetch(path, Object.assign({ headers: {} }, opts));
+
+    async function login() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const res = await api('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        document.getElementById('login').style.display='none';
+        document.getElementById('app').style.display='block';
+        loadProfile();
+        loadLeaves();
+      } else {
+        alert(data.error || 'Login failed');
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem('token');
+      location.reload();
+    }
+
+    async function loadProfile() {
+      const res = await api('/api/profile', { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }});
+      const data = await res.json();
+      document.getElementById('profile').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function addLeave() {
+      const date = document.getElementById('date').value;
+      const reason = document.getElementById('reason').value;
+      const granted = document.getElementById('granted').value === 'true';
+      const res = await api('/api/leaves', {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', Authorization: 'Bearer ' + localStorage.getItem('token') },
+        body: JSON.stringify({ date, reason, granted })
+      });
+      if ((await res.json()).ok) loadLeaves();
+    }
+
+    async function loadLeaves() {
+      const res = await api('/api/leaves', { headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }});
+      const list = document.getElementById('list');
+      list.innerHTML='';
+      const items = await res.json();
+      items.forEach(i => {
+        const li = document.createElement('li');
+        li.textContent = i.date + ' - ' + i.reason + ' (' + (i.granted ? 'Granted' : 'Pending/No') + ')';
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>

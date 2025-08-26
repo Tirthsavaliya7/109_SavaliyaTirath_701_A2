@@ -1,0 +1,11 @@
+<!-- views/home.ejs -->
+
+<section class="card">
+  <h1>Welcome</h1>
+  <p>This is a minimal Express login demo with Redis-backed sessions.</p>
+  <% if (!user) { %>
+    <a class="btn primary" href="/login">Go to Login</a>
+  <% } else { %>
+    <a class="btn primary" href="/dashboard">Go to Dashboard</a>
+  <% } %>
+</section>
